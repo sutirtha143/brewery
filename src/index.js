@@ -16,23 +16,26 @@ import {engine} from 'express-handlebars';
 import bodyParser from "body-parser";
 //const uri = "mongodb+srv://sutirthasen:obito123@cluster0.yx7nmz5.mongodb.net/?retryWrites=true&w=majority";
 var uri = process.env.MONGODB_URI;
-var port = process.env.PORT
+var port = process.env.PORT || 3000
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 //node version 16.17.1
-const tempelatePath = path.join(__dir, '../templates')
-const publicPath = path.join(__dir, '../public')
+//const tempelatePath = path.join(__dir, '../views')
+//const publicPath = path.join(__dir, '../public')
 //console.log(publicPath);
 
+// app.engine('hbs', engine(
+//     {defaultLayout:false}
+// ));
+app.set('views', path.join(__dirname, "views"))
 app.engine('hbs', engine(
     {defaultLayout:false}
 ));
 app.set('view engine', 'hbs')
-app.set('views', tempelatePath)
-app.use(express.static(publicPath))
+app.use(express.static(path.join(__dirname, "public")))
 
 
 app.get('/signup', (req, res) => {
